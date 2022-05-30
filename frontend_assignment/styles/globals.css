@@ -23,3 +23,42 @@ a:active {
 * {
     box-sizing: border-box;
 }
+
+button[type="submit"],
+input[type="submit"] {
+  background: #ec8862;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  margin-top: 40px;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 100;
+  letter-spacing: 5px;
+}
+
+label {
+    margin-bottom: 100px;
+}
+
+
+input {
+    margin-right: 50px;
+
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid white;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+
+}
+
+button[type="submit"]:hover,
+input[type="submit"]:hover {
+  background: #add8e6;
+  color: #000000
+}
+

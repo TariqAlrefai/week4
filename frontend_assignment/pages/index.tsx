@@ -5,9 +5,29 @@ import { providers } from "ethers"
 import Head from "next/head"
 import React from "react"
 import styles from "../styles/Home.module.css"
+import { useForm } from "react-hook-form";
+import { object, string, number } from 'yup';
+import Logo from '../src/ZKU_Logo.png';
 
 export default function Home() {
+    // console.log("logo",Logo)
     const [logs, setLogs] = React.useState("Connect your wallet and greet!")
+    const [logsA, setLogsA] = React.useState("Response Event")
+
+
+    const {register,handleSubmit} = useForm({
+        defaultValues: {
+          Name: "",
+          Age: "",
+          Address:""
+        }
+      });
+      
+    let userSchema = object({
+        Name: string().required(),
+        Age: number().required().positive().integer(),
+        Address: string().required()
+      });
 
     async function greet() {
         setLogs("Creating your Semaphore identity...")
@@ -55,27 +75,61 @@ export default function Home() {
 
             setLogs(errorMessage)
         } else {
+            const mess = await response.text()
+            setLogsA(JSON.parse(mess)["here"])
             setLogs("Your anonymous greeting is onchain :)")
         }
     }
 
+    // Front End
     return (
         <div className={styles.container}>
             <Head>
-                <title>Greetings</title>
+                <title>hello</title>
                 <meta name="description" content="A simple Next.js/Hardhat privacy application with Semaphore." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+
             <main className={styles.main}>
-                <h1 className={styles.title}>Greetings</h1>
+                <div className={styles.titleDiv}>
+                    <h1 className={styles.title}>Part 3 Frontend Assignment</h1>
+                </div>
+                <div className={styles.titleDiv}>
+                    <img src={Logo.src} height="100%"/>
+                </div>
+            
+                
+                <div className={styles.formDiv}>
+                    <form
+                        onSubmit= {handleSubmit((data) => {console.log(JSON.stringify(data))
+                        userSchema.validate(JSON.stringify(data))}
+                    )}
+                        >
+                            
+                        <label>Name</label>
+                        <input {...register("Name")} defaultValue="Name" />
+                        
+                        <label>Age</label>
+                        <input {...register("Age")} defaultValue="age" />
 
-                <p className={styles.description}>A simple Next.js/Hardhat privacy application with Semaphore.</p>
+                        <label>Address</label>
+                        <input {...register("Address")} defaultValue="address" />
 
-                <div className={styles.logs}>{logs}</div>
+                       
+                        <input type="submit" name="submit"/>
+                        
+                    </form>     
 
-                <div onClick={() => greet()} className={styles.button}>
-                    Greet
+                    <p className={styles.description}>A simple implementaion of front-end React</p> 
+
+                    <div className={styles.logs}>{logs}</div> 
+
+                    <div className={styles.logs}>{logsA}</div>
+
+                    <div id="click" onClick={() => greet()} className={styles.button}>
+                        Greet
+                    </div>
                 </div>
             </main>
         </div>
